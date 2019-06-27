@@ -228,6 +228,15 @@ class Line(object):
         self.start = start.clone()
         self.end = end.clone()
         self.numberofclones = 0
+        self.reversecount = 0
+        self.plusstartx = 0
+        self.plusstarty = 0
+        self.plusendx = 0
+        self.plusendy = 0
+        self.minusstartx = 0
+        self.minusstarty = 0
+        self.minusendx = 0
+        self.minusendy = 0
 
     def __repr__(self):
         """
@@ -379,6 +388,7 @@ class Line(object):
         p2 = self.start
         self.end = p2
         self.start = p1
+        self.reversecount = self.reversecount + 1
         return self
 
     def slope(self):
@@ -536,6 +546,10 @@ class Line(object):
         p1 = self.start.plus(other_line.start)
         p2 = self.end.plus(other_line.end)
         line = Line(p1, p2)
+        self.plusstartx = other_line.start.x + self.plusstartx
+        self.plusstarty = other_line.start.y + self.plusstarty
+        self.plusendx = other_line.end.x + self.plusendx
+        self.plusendy = other_line.end.y + self.plusendy
         return line
 
     def line_minus(self, other_line):
@@ -573,6 +587,10 @@ class Line(object):
         # --------------------------------------------------------------
         p1 = self.start.minus(other_line.start)
         p2 = self.end.minus(other_line.end)
+        self.minusstartx = self.minusstartx + other_line.start.x
+        self.minusstarty = self.minusstarty + other_line.start.y
+        self.minusendx = self.plusendx + other_line.end.x
+        self.minusendy = self.minusendy + other_line.end.y
         line = Line(p1, p2)
         return line
 
@@ -710,8 +728,14 @@ class Line(object):
         #        The tests are already written (below).
         #        They include the Example in the above doc-string.
         # --------------------------------------------------------------
-        line = Line(self.line_reset_start, self.line_reset_end)
-        return line
+        for k in range(self.reversecount):
+            self.reverse()
+        self.start = self.start.minus(Point(self.plusstartx, self.plusstarty))
+        self.end = self.end.minus(Point(self.plusendx, self.plusendy))
+        self.start = self.start.plus(Point(self.minusstartx, self.minusstarty))
+        self.end = self.end.plus(Point(self.minusendx, self.minusendy))
+
+        return self
 
 
 ########################################################################

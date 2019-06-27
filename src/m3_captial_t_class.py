@@ -16,9 +16,9 @@ def main():
     print('Un-comment the calls in MAIN one by one')
     print(' to run the testing code as you complete the TODOs.')
 
-    run_test_simple_t()
-    run_test_set_colors()
-    run_test_move_by()
+    # run_test_simple_t()
+    # run_test_set_colors()
+    # run_test_move_by()
     run_test_clone()
 
 
@@ -149,6 +149,9 @@ class CapitalT(object):
         corner_4 = rg.Point(intersection_center.x - letter_thickness/2, intersection_center.y + height - letter_thickness/2)
         self.v_rect = rg.Rectangle(corner_3, corner_4)
 
+        self.h_rect2 = rg.Rectangle(self.h_rect.corner_2, self.h_rect.corner_1)
+        self.v_rect2 = rg.Rectangle(self.v_rect.corner_2, self.v_rect.corner_1)
+
     def attach_to(self, window):
         """
         What comes in:
@@ -274,9 +277,13 @@ class CapitalT(object):
         #     run_test method in main. Compare the graphics window to
         #     clone.pdf.
         # --------------------------------------------------------------
-        h_rect = self.h_rect
-        v_rect = self.v_rect
-        return h_rect, v_rect
+        #self.h_rect.fill_color = self.h_rect.fill_color
+        #self.v_rect.fill_color = self.v_rect.fill_color
+        h_rect2 = self.h_rect2
+        v_rect2 = self.v_rect2
+        self.second = CapitalT(h_rect2.get_center(), h_rect2.get_width(), h_rect2.get_width() , v_rect2.get_width())
+        self.second.set_colors(self.h_rect.fill_color, self.h_rect.outline_color)
+        return self.second
 
 # ----------------------------------------------------------------------
 # If this module is running at the top level (as opposed to being
