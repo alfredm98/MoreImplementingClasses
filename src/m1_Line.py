@@ -237,6 +237,17 @@ class Line(object):
         self.minusstarty = 0
         self.minusendx = 0
         self.minusendy = 0
+        if self.numberofclones > 0:
+            self.changestartx = self.start.x - start.x
+            self.changestarty = self.start.y - start.y
+            self.changeendx = self.end.x - end.x
+            self.changeendy = self.end.y - end.y
+        else:
+            self.changestartx = 0
+            self.changestarty = 0
+            self.changeendx = 0
+            self.changeendy = 0
+
 
     def __repr__(self):
         """
@@ -734,6 +745,8 @@ class Line(object):
         self.end = self.end.minus(Point(self.plusendx, self.plusendy))
         self.start = self.start.plus(Point(self.minusstartx, self.minusstarty))
         self.end = self.end.plus(Point(self.minusendx, self.minusendy))
+        self.start = Point(self.start.x + self.changestartx, self.start.y + self.changestarty)
+        self.end = Point(self.end.x + self.changeendx, self.end.y + self.changeendy)
 
         return self
 
